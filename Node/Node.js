@@ -1,5 +1,5 @@
 /**
- * Core
+ * Sherpa
  * Node.js
  *
  * @author Brandon Li <brandon.li820@icloud.com>

@@ -1,6 +1,6 @@
 <!--  
   README.md
-  Core
+  Sherpa
   Created by Brandon Li on 2/18/19.
   Copyright © 2019 Brandon Li. All rights reserved. 
 -->
