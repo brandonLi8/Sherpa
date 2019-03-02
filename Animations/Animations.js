@@ -1,5 +1,5 @@
 /**
- * Core
+ * Sherpa
  * Animations.js
  *
  * @author Brandon Li <brandon.li820@icloud.com>
@@ -39,6 +39,8 @@
  * This is supported for all browsers thanks to web-animations:
  * https://github.com/web-animations/web-animations-js/tree/master (apache 2.0)
  * This module allows this to animate on all browsers!
+ *
+ * For more information, please refer to the the README.md (same directory)
  */
 
 import Assert from "../Assert/Assert.js";
