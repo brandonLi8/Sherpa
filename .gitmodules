@@ -1,3 +1,0 @@
-[submodule "BrowserSupport"]
-	path = Animations/BrowserSupport
-	url = https://github.com/web-animations/web-animations-js.git
