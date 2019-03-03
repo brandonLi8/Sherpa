@@ -52,6 +52,7 @@ import Assert from "../Assert/Assert.js";
  *
  * Load the script and add it to the head to be used
  */
+ 
 var script = document.createElement( "script" );
 script.src = "./Sherpa/Animations/BrowserSupport/web-animations.min.js"
 document.head.appendChild( script );
