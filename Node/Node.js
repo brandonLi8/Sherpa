@@ -58,10 +58,10 @@
  *
  * To make a 'childNode' become a 'parentNode', the typical way is to call
  * addChild():
- *   parentNode.addChild( childNode );
+ *   parentNode.addChildren( childNode );
  *
  * To remove this connection, you can call:
- *   parentNode.removeChild( childNode );
+ *   parentNode.removeChildren( childNode );
  *
  * ## Events
  * The user must provide the functions when a event is triggered.
