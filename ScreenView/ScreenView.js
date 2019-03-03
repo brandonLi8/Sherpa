@@ -43,34 +43,16 @@ export default class ScreenView {
    * @param {object} bodyStyle @optional, you have the change the overide the 
    * style for the body
    *
-   */
+   */ 
+  
   constructor( rootNode, htmlStyle, bodyStyle ){
     // provide the default for the screen ( style html )
     var html = {
-      maxWidth: "100%",
-      overflow: "hidden",
-      height: "100%",
-      maxHeight: "100%",
-      maxWidth: "100%",
-      margin: "0",
-      padding: "0",
-      background: "rgb( 238 , 239 , 241 )",
-      backgroundColor: "hsl(220, 1.24, 94.51)",
     };
     // now overide with the user provided styling if they choose to overide
     var htmlStyleOveride = { ...html, ...htmlStyle };
     // provide the default for the screen ( style body )
     var body = {
-      maxWidth: "100%",
-      overflow: "hidden",
-      height: "100%",
-      maxHeight: "100%",
-      maxWidth: "100%",
-      background: "none",
-      padding: "0",
-      margin: "0",
-      lineHeight: "1.5",
-      color: "#333",
     };
     // now overide with the user provided styling if they choose to overide
     var bodyStyleOveride = { ...body, ...htmlStyle };
