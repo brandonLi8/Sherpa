@@ -53,7 +53,7 @@ import Assert from "../Assert/Assert.js";
  * Load the script and add it to the head to be used
  */
 var script = document.createElement( "script" );
-script.src = "./Core/Animations/BrowserSupport/web-animations.min.js"
+script.src = "./Sherpa/Animations/BrowserSupport/web-animations.min.js"
 document.head.appendChild( script );
 
 
@@ -192,16 +192,10 @@ export default class Animations {
     return this.animate({
       node: node,
       animation: [ // animation that moves it
-        { transform: "translate( 0 )" },
         { transform: "translate(" 
-                     + "calc(" + options.deltaX + " * 0.8 )"
+                     + "calc(" + options.deltaX + " * -0.6 )"
                      + "," 
-                     + "calc(" + options.deltaY + " * 0.8 )"
-                     + ")" },
-        { transform: "translate(" 
-                     + "calc(" + options.deltaX + " * -1 )"
-                     + "," 
-                     + "calc(" + options.deltaY + " * -1 )"
+                     + "calc(" + options.deltaY + " * -0.6 )"
                      + ")" },
         { transform: "translate(" 
                      + "calc(" + options.deltaX + " * 1 )"
@@ -209,9 +203,14 @@ export default class Animations {
                      + "calc(" + options.deltaY + " * 1 )"
                      + ")" },
         { transform: "translate(" 
-                     + "calc(" + options.deltaX + " * -0.8 )"
+                     + "calc(" + options.deltaX + " * -1 )"
                      + "," 
-                     + "calc(" + options.deltaY + " * -0.8 )"
+                     + "calc(" + options.deltaY + " * -1 )"
+                     + ")" },
+        { transform: "translate(" 
+                     + "calc(" + options.deltaX + " * 0.6 )"
+                     + "," 
+                     + "calc(" + options.deltaY + " * 0.6 )"
                      + ")" },
 
       ],  
@@ -262,6 +261,134 @@ export default class Animations {
         { transform: "scale(" 
                      + options.resize / 100 
                      + "," + options.resize / 100 + ")" },
+      ],  
+      timing: {
+        fill: options.fill,
+        duration: options.duration,
+        ...options.timingOptions
+      }
+
+    })
+  }
+  /**
+   * @public
+   * Animate by first flippling the node, then increasing the margin to give
+   * the effect of it enlarging aswell
+   * @param {object} options - the options to the animations
+   * options {
+   *  node: {node} @required,
+   *  duration: duration of the enlargment, @optional
+   *  amount: amount to go out {number} @required
+   *
+   *  fill: {string} @optional
+   *  timingOptions: {} ex: "iterations" ... @optional
+   * }
+   * Look at the defaults in the method -> const defaults = {...
+   * It is not recommended to have the node start off with padding.
+   */
+  static iconHover( options ) {
+    let defaults = {
+      node: null, // @required
+      duration: 200, // @optional
+      amount: "25px",
+      fill: "forwards",
+      timingOptions: {} //the options for the animations (ex: iterations...)
+    }
+    options = { ...defaults, ...options }
+
+    let node = options.node;
+    // make sure that the user provides a node
+    Assert.assert(
+      node && node.__proto__.constructor.name === "Node",
+      "@param options.node must be of node type and is required. Instead it was"
+      + " a " + ( ( node && node.__proto__.constructor.name ) || null )
+    );
+    let nodePadding = node.DOMobject.style.padding || "0px"
+    let amount = options.amount
+    // make the animation, this gets ugly :)
+    let keyFrames = [ 
+      { 
+        transform: "rotate( 0deg )",
+        offset: 0,
+        padding: nodePadding, // keep it where it is originally
+        margin: nodePadding,
+      },
+      { 
+        transform: "rotate( 360deg )",
+        offset: 0.35,
+        padding: "calc( " + nodePadding + " + " + amount + " / 2 )",
+        margin: "calc( (" + nodePadding + " + " + amount + " / 2 ) * -1 )",
+      },
+      { 
+        transform: "rotate( 360deg )",
+        transform: "translateX( 1px )",
+        padding: "calc( " + nodePadding + " + " + amount + "  )",
+        margin: "calc( (" + nodePadding + " + " + amount + "  ) * -1 )",
+        offset: 0.42
+      },
+      { 
+        transform: "scale( 1.13 )",
+        transform: "translateX( -1px )",
+        transform: "rotate( 360deg )",
+        padding: "calc( " + nodePadding + " + " + amount + "  )",
+        margin: "calc( (" + nodePadding + " + " + amount + "  ) * -1 )",
+        offset: 0.60,
+      },
+      { 
+        transform: "scale( 1.2 )",
+        transform: "translateX( 0px )",
+        transform: "rotate( 360deg )",
+        padding: "calc( " + nodePadding + " + " + amount + " / 5 )",
+        margin: "calc( (" + nodePadding + " + " + amount + " / 5 ) * -1 )",
+        offset: 1,
+      },
+    ]
+    return this.animate({
+      node: node,
+      animation: keyFrames,
+      timing: {
+        fill: options.fill,
+        duration: options.duration,
+        ...options.timingOptions
+      }
+
+    })
+  }
+  /**
+   * @public
+   * Animate by fading the node (change the opacity)
+   * @param {object} options - the options to the animations
+   * options {
+   *  node: {node} @required,
+   *  duration: duration of the animation, @optional
+   *  opacity: {string} @required the new opacity after the animation
+   *  fill: {string} @optional
+   *  timingOptions: {} ex {interations...} @optional
+   * }
+   * Look at the defaults in the method -> const defaults = {...
+   */
+  static fade( options ) {
+    let defaults = {
+      node: null, // @required
+      duration: 200, // @optional
+      opacity: "0.5",
+      fill: "forwards",
+      timingOptions: {} //the options for the animations (ex: iterations...)
+    }
+    options = { ...defaults, ...options }
+
+    let node = options.node;
+    // make sure that the user provides a node
+    Assert.assert(
+      node && node.__proto__.constructor.name === "Node",
+      "@param options.node must be of node type and is required. Instead it was"
+      + " a " + ( ( node && node.__proto__.constructor.name ) || null )
+    );
+    return this.animate({
+      node: node,
+      animation: [ // animation that moves it
+        { opacity: node.DOMobject.style.opacity || "1.0" },
+        { opacity: options.opacity }
       ],  
       timing: {
         fill: options.fill,

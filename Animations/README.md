@@ -44,7 +44,7 @@ node.addEventListener( "mouseover", function(){
   Animations.jiggle({ // Animations is static
     node: node,
     deltaX: "5px",
-    deltaY: "0px"
+    deltaY: "0px",
     duration: 400, // milliseconds
   })
 })
