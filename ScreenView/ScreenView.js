@@ -28,6 +28,9 @@
  *
  */
 
+// modules
+import Assert from "../Assert/Assert.js";
+
 
 "use strict";
 export default class ScreenView {
@@ -46,13 +49,32 @@ export default class ScreenView {
    */ 
   
   constructor( rootNode, htmlStyle, bodyStyle ){
+    Assert.assert(
+      rootNode && rootNode.__proto__.constructor.name === "Node",
+      "@param rootNode must be of node type. Instead it was a " +
+      ( ( rootNode && rootNode.__proto__.constructor.name ) || rootNode )
+    );
     // provide the default for the screen ( style html )
     var html = {
+      maxWidth: "100%",
+      overflowX: "hidden",
+      height: "100%",
+      background: "#26262a",
     };
+
+    // Assert.assert(
+    //   htmlStyle || htmlStyle.__proto__.constructor.name === "Node",
+    //   "@param rootNode must be of node type. Instead it was a " +
+    //   ( ( rootNode && rootNode.__proto__.constructor.name ) || rootNode )
+    // );
     // now overide with the user provided styling if they choose to overide
     var htmlStyleOveride = { ...html, ...htmlStyle };
     // provide the default for the screen ( style body )
     var body = {
+      maxWidth: "100%",
+      height: "100%",
+      background: "#FFF",
+      margin: 0
     };
     // now overide with the user provided styling if they choose to overide
     var bodyStyleOveride = { ...body, ...htmlStyle };

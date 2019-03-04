@@ -11,6 +11,7 @@ By [Brandon Li](https://github.com/brandonLi8)
 
 ScreenView is a module that is the general DOM tree as a whole in HTML.
 For example:
+```
     Dom -> Html  <- Document
             |
     Dom -> body
@@ -20,6 +21,8 @@ For example:
   Node -> A   B <- Node
          / \
 Node -> D   E <- Node
+
+```
 
 As you can see, the 'wrapper' node is the root to the ScreenView as the body and html are ignored. The user can provide styling for the HTML and Body element.
 
