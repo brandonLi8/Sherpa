@@ -8,11 +8,11 @@
  *
  *
  * ## Description:
- * This well create a tree that you can add to your screenview which represents
- * a check button. 
- * 
- * A node that has styling for the box, and a check which is toggled between
- * display: "none" and display to simulate checking the box
+ * This is a node that represents a check with all the listeners already
+ * made.
+ *
+ * It  takes a label and its listeners as optional and represents a button
+ * which the user can toggle on and off.
  *
  *      Div <-  ( the container ) Not the Button!
  *     /   \
@@ -24,10 +24,15 @@
 
 "use strict";
 // modules
-import Node from "../Screen/Node.js";
+import OriginalNode from "../Node/Node.js";
+import Assert from "../Assert/Assert.js"
 import ObservableVariable from "../Observe/ObservableVariable.js"
 
-export default class CheckButton {
+
+// usage: import CheckButton from "...";
+// Use Node in order for the actual Node class to recognize it.
+
+export default class Node extends OriginalNode {
   /**
    * Creates the button node
    * @public
@@ -118,7 +123,7 @@ export default class CheckButton {
       mouseout: null,
 
       // {function} called on the click of the button @optional
-      listener: null, 
+      onclick: null, 
 
     }
     // merge them with options overriding
@@ -135,11 +140,17 @@ export default class CheckButton {
 
     attributes.checkStyle = { ...defaults.checkStyle, ...options.checkStyle }
 
+
+    // call the Node to make the container
+    super({
+      style: attributes.containerStyle
+    })
+
     // @private
     var self = this;
     // @public 
     this.isSwitched = new ObservableVariable( attributes.switch );
-    this.isSwitched.setListener( function( newValue ){
+    this.isSwitched.addListener( function( newValue ){
       if ( newValue ){
         self.check.setStyle({ display: "" });
       }
@@ -149,19 +160,14 @@ export default class CheckButton {
     })
     // when this is changed, the check mark (view) reflects it 
 
-    // add a container
-    // @public {node} the container of the label and the button
-    this.container = new Node({
-      style: attributes.containerStyle
-    })
-
+  
     // @public {node} the button
-    this.button = new Node({
+    this.button = new OriginalNode({
       style: attributes.buttonStyle
     })
 
     // @public {node} the check
-    this.check = new Node({
+    this.check = new OriginalNode({
       text: "✓",
       style: attributes.checkStyle,
     })
@@ -173,39 +179,58 @@ export default class CheckButton {
     // hover effect
     this.button.addEventListener( "mouseover", function( event ) {
       event.stopPropagation();
-      self.button.setStyle( attributes.hoverStyle )
+      self.setStyle( attributes.hoverStyle || {} )
       // call the user provided method 
-      if ( attributes.hoverListener ) 
+      if ( attributes.hoverListener ){ 
+        Assert.assert( 
+          typeof attributes.hoverListener === "function",
+          "@param listener must be a Function type. Instead it was a "
+          + attributes.hoverListener.__proto__.constructor.name 
+        );
         attributes.hoverListener(); 
+      }
     } );
     
     // hover end
     this.button.addEventListener( "mouseout", function( event ){
       event.stopPropagation();
       // call user provided method
-      if ( attributes.mouseout ) attributes.mouseout();
+      if ( attributes.mouseout ) {
+        Assert.assert( 
+          typeof attributes.mouseout === "function",
+          "@param listener must be a Function type. Instead it was a "
+          + attributes.mouseout.__proto__.constructor.name 
+        );
+        attributes.mouseout();
+      }
       // reset the style
-      self.button.setStyle( attributes.buttonStyle )
+      self.button.setStyle( attributes.buttonStyle || {} )
     } );
 
     // click
     this.button.addEventListener( "mousedown", function( event ){
       event.stopPropagation();
       self.isSwitched.value = !self.isSwitched.value;
-      if ( attributes.listener )
-        attributes.listener();
+      if ( attributes.onclick ){
+        Assert.assert( 
+          typeof attributes.onclick === "function",
+          "@param listener must be a Function type. Instead it was a "
+          + attributes.onclick.__proto__.constructor.name 
+        );
+        attributes.onclick();
+      }
     }); 
       
     // add the check to the box
-    this.button.addChild( this.check )
+    this.button.addChildren( this.check )
 
     // @public now add the label
-    this.label = new Node({
+    this.label = new OriginalNode({
       text: attributes.label,
       style: attributes.labelStyle
     })
 
-    this.container.appendChildren([ this.button, this.label ])
+    this.addChildren( this.button, this.label )
 
     // @public
     this.attributes = attributes;
