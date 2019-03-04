@@ -8,10 +8,10 @@
  *
  *
  * ## Description:
- * This well create a tree that you can add to your Screenview which represents 
- * a button that contains a image.
+ * This is a node that represents a Image button with all the listeners already
+ * made.
  *
- * A Node that takes a image, its hover image (optional), and text (optional)
+ * It  takes a image, its hover image (optional), and text (optional)
  * that is a button. The user will provide the styling and the listener function
  * when the button is pressed
  *
@@ -21,29 +21,24 @@
 
 "use strict";
 // modules
-import Node from "../Screen/Node.js";
+import OriginalNode from "../Node/Node.js";
+import Assert from "../Assert/Assert.js"
 
+// usage: import ImageButton from "...";
+// Use Node in order for the actual Node class to recognize it.
 
-    
-export default class ImageTextButton {
+export default class Node extends OriginalNode {
   /**
    * Creates the button node
    * @public
    * @constructor
    *
-   * @param {object} options - optionto overide the defauls
+   * @param {object} options - optiont overide the defauls
    * visit const defaults to see the defaults
    * 
-   * to get the node just use the .node property: ex:
-   * let button = new ImageButton({}).node
    */
   constructor( options ){
     // provide the defaults
-    /**
-     * Note: for listeners to the imageTextButton ff you want to use your own 
-     * scope on the listener create a alias to this with self ie. 
-     * var self = this and use self as a refrence to yourself.
-     */
     const defaults = {
 
       // {object} this style of the button, usually for positioining it 
@@ -73,7 +68,7 @@ export default class ImageTextButton {
       mouseout: null,
 
       // {function} called on the click of the button @optional
-      listener: null,
+      onclick: null,
 
     }
     // merge them with options overriding
@@ -82,57 +77,81 @@ export default class ImageTextButton {
     // merge the styles
     attributes.hoverStyle = { ...defaults.hoverStyle, ...options.hoverStyle } 
  
-    // alias self for listeners
-    var self = this;
 
-    // {node} @public - the actual button node
-    this.button = new Node({
+    super({
       type: "img",
       style: attributes.style,
       src: attributes.src,
-    });
+      attributes: {
+        id: attributes.id,
+        class: attributes.class
+      }
+    })
+
+    // alias self for listeners
+    var self = this;
+
 
     // add hover event listener
-    if ( attributes.hover ){
-      this.button.addEventListener( "mouseover", function( event ){
-        // stop propagation to children
-        event.stopPropagation();
+    
+    this.addEventListener( "mouseover", function( event ){
+      // stop propagation to children
+      event.stopPropagation();
 
-        self.button.setStyle( attributes.hoverStyle );
-        // call the user provided method with the scope
-        if ( attributes.hoverListener ) 
-          attributes.hoverListener();
+      self.setStyle( attributes.hoverStyle || {} );
+      // call the user provided method with the scope
+      if ( attributes.hoverListener ){
+        Assert.assert( 
+          typeof attributes.hoverListener === "function",
+          "@param listener must be a Function type. Instead it was a "
+          + attributes.hoverListener.__proto__.constructor.name 
+        );
 
+        attributes.hoverListener();
+      } 
         // change the image
-        if ( !attributes.hover ) return;
-        self.button.DOMobject.src = attributes.hover;
-      } );
-    }
+      if ( !attributes.hover ) return;
+
+      self.DOMobject.src = attributes.hover;
+    } );
+    
 
 
     // change back to original src on the mouse out
-    this.button.addEventListener( "mouseout", function( event ){
+    this.addEventListener( "mouseout", function( event ){
       event.stopPropagation();
-      self.button.setStyle( attributes.style );
+      self.setStyle( attributes.style || {} );
 
-      self.button.DOMobject.src = attributes.src;
+      self.DOMobject.src = attributes.src;
       // call the user provided method with the scope
-      if ( attributes.mouseout ) attributes.mouseout();
+      if ( attributes.mouseout ) {
+        Assert.assert( 
+          typeof attributes.mouseout === "function",
+          "@param listener must be a Function type. Instead it was a "
+          + attributes.mouseout.__proto__.constructor.name 
+        );
+        attributes.mouseout();
+      }
     }
     );
 
     // add the click listener
-    this.button.addEventListener( "mousedown", function( event ){
+    this.addEventListener( "mousedown", function( event ){
       event.stopPropagation();
-      if ( attributes.listener ) attributes.listener() 
+      if ( attributes.onclick ) {
+        Assert.assert( 
+          typeof attributes.onclick === "function",
+          "@param listener must be a Function type. Instead it was a "
+          + attributes.onclick.__proto__.constructor.name 
+        );
+        attributes.onclick() 
+      }
     }); 
 
     // @public {object} - the attributes (options)
     // you can overide it to change attributes (animations, images, etc.)
     this.attributes = attributes;
 
-    // @public {node} - the actual node of the object
-    this.node = this.button;
   }
 
 }
