@@ -9,25 +9,38 @@
  *
  * ## Description:
  *
- * This well create a tree that you can add to your tree which represents a 
- * button that contains a image.
+ * This is a button class that is designed for text on top of it. This uses Node
+ * so it supports animations, hover effects, and click functionality.
  *
- * A Node that has all the nodes for a button ( text ).
- * This provides a default looking button, but the user can overide the style.
- * The style is a seperate opbject that the user can default each item, so
+ * This is a basically a Node with other nodes as children but represents a 
+ * button.
+ *
+ * TextPushButton provides a default looking button, but the user can overide 
+ * the style, a seperate opbject that the user can default each item, so
  * if you override style it doens't delete all of the style.
  *
- *    div <- this.node ( the actual button ) 
+ * The tree looks something like this.
+ *    div <- this 
  *     |
- *  textnode <- this.textNode ( the node of the text )  
+ *  textnode <- this.textNode ( the node of the text ) 
+ *
+ * This sepration of the text and the button allows for animation of just the
+ * text.
+ * 
  */
 
 // modules
-import Node from "../Node/Node.js";
+import OriginalNode from "../Node/Node.js";
+import Assert from "../Assert/Assert.js"
 
 "use strict";
 
-export default class TextPushButton {
+// we must use Node name in order to have node functionality
+// call it with TextPushButton:
+// import TextPushButton from "...";
+
+// we aren't making a new node
+export default class Node extends OriginalNode {
   /**
    * Creates the button node
    * @public
@@ -42,18 +55,11 @@ export default class TextPushButton {
    */
   constructor( options ){
     // provide the defaults 
-    /**
-     * Note: for listeners to the textPush ff you want to use your own 
-     * scope on the listener create a alias to this with self ie. 
-     * var self = this and use self as a refrence to yourself.
-     * this is a refrence to the textPushButton
-     */
     let defaults = {
-
       // {string} the text on the node @optional
       text: "Text Button", 
 
-      // {object} the styling ( overriding doesnt delete all of it )  @optional 
+      // {object} the styling ( overriding doesnt delete all of it ) @optional 
       style: { 
         border: "1px solid #222",
         borderRadius: "15px",
@@ -84,11 +90,12 @@ export default class TextPushButton {
 
       // {string}the id of the button @optional 
       id: null, 
+
       // {string} the class of the button @optional 
       class: null,
 
       // {function} the function called on the click 
-      listener: null,
+      onclick: null,
 
       // {function} the function called on the hover 
       hoverListener: null,
@@ -97,8 +104,7 @@ export default class TextPushButton {
       mouseout: null,
 
     }
-    var self = this;
-    // merge them with options overriding
+    
     let attributes = { ...defaults, ...options };
 
     // merge the styles 
@@ -106,53 +112,73 @@ export default class TextPushButton {
     attributes.hoverStyle = { ...defaults.hoverStyle, ...options.hoverStyle } 
     attributes.textStyle = { ...defaults.textStyle, ...options.textStyle }
 
+    // create the node!
+    super({
+      style: attributes.style,
+      attributes: {
+        id: attributes.id,
+        class: attributes.class
+      }
+    })
+    // 'this' is now the button node
 
-    // @public {node} the button node
-    this.button = new Node({
-      style: attributes.style
-    });
+    var self = this;
 
-    // add hover styling ( you can call animations from your css in here )
-    this.button.addEventListener( "mouseover", function( event ){ 
+    // add hover styling 
+    this.addEventListener( "mouseover", function( event ){ 
       event.stopPropagation();
-      self.button.setStyle( attributes.hoverStyle );
-      self.textNode.setStyle( attributes.textHoverStyle );
+      self.setStyle( attributes.hoverStyle || {} );
+      self.textNode.setStyle( attributes.textHoverStyle || {} );
 
-      if ( attributes.hoverListener )
+      if ( attributes.hoverListener ){
+        Assert.assert( 
+          typeof attributes.hoverListener === "function",
+          "@param listener must be a Function type. Instead it was a "
+          + attributes.hoverListener.__proto__.constructor.name );
+
         attributes.hoverListener()
+      }
 
     } );
 
-    this.button.addEventListener( "mouseout", function( event ){ 
+    this.addEventListener( "mouseout", function( event ){ 
       event.stopPropagation();
-      self.button.setStyle( attributes.style );
-      self.textNode.setStyle( attributes.textStyle )
 
-      if ( attributes.mouseout ) attributes.mouseout()
+      self.setStyle( attributes.style || {} );
+      self.textNode.setStyle( attributes.textStyle || {} )
+
+      if ( attributes.mouseout ){
+        Assert.assert( 
+          typeof attributes.mouseout === "function",
+          "@param listener must be a Function type. Instead it was a "
+          + attributes.mouseout.__proto__.constructor.name );
+        attributes.mouseout()
+      }
 
     } );
 
     // on click listener
-    this.button.addEventListener( "mousedown", function( event ){
+    this.addEventListener( "mousedown", function( event ){
+
       event.stopPropagation()
-      if ( attributes.listener ) 
-        attributes.listener();
+      if ( attributes.onclick ){
+        Assert.assert( 
+          typeof attributes.onclick === "function",
+          "@param listener must be a Function type. Instead it was a "
+          + attributes.onclick.__proto__.constructor.name );
+        attributes.onclick();
+      }
+
     } );
     
 
     // @public have a seperate text node for more animation flexibility
-    this.textNode = new Node({
+    this.textNode = new OriginalNode({
       text: attributes.text,
       style: attributes.textStyle
     })
 
-    this.button.addChildren( this.textNode );
-   
-    // {object} @public the attibutes you can change
-    this.attributes = attributes;
-
-    // {node} @public the actual button
-    this.node = this.button;
+    this.addChildren( this.textNode );
   }
 
 }
