@@ -35,7 +35,7 @@ export default class Assert {
     if ( !condition ) {
       message = message || "Assertion failed";
       if ( typeof Error !== "undefined" ) {
-          throw new Error( message );
+        throw new Error( message );
       }
       throw message; 
     }
