@@ -305,6 +305,7 @@ export default class Animations {
       + " a " + ( ( node && node.__proto__.constructor.name ) || null )
     );
     let nodePadding = node.DOMobject.style.padding || "0px"
+    let nodeMargin = node.DOMobject.style.margin || "0px"
     let amount = options.amount
     // make the animation, this gets ugly :)
     let keyFrames = [ 
@@ -318,13 +319,13 @@ export default class Animations {
         transform: "rotate( 360deg )",
         offset: 0.35,
         padding: "calc( " + nodePadding + " + " + amount + " / 2 )",
-        margin: "calc( (" + nodePadding + " + " + amount + " / 2 ) * -1 )",
+        margin: "calc( (" + nodeMargin + " - " + amount + " / 2 ) )",
       },
       { 
         transform: "rotate( 360deg )",
         transform: "translateX( 1px )",
         padding: "calc( " + nodePadding + " + " + amount + "  )",
-        margin: "calc( (" + nodePadding + " + " + amount + "  ) * -1 )",
+        margin: "calc( (" + nodeMargin + " - " + amount + "  ) )",
         offset: 0.42
       },
       { 
@@ -332,7 +333,7 @@ export default class Animations {
         transform: "translateX( -1px )",
         transform: "rotate( 360deg )",
         padding: "calc( " + nodePadding + " + " + amount + "  )",
-        margin: "calc( (" + nodePadding + " + " + amount + "  ) * -1 )",
+        margin: "calc( (" + nodeMargin + " - " + amount + "  ) )",
         offset: 0.60,
       },
       { 
@@ -340,7 +341,7 @@ export default class Animations {
         transform: "translateX( 0px )",
         transform: "rotate( 360deg )",
         padding: "calc( " + nodePadding + " + " + amount + " / 5 )",
-        margin: "calc( (" + nodePadding + " + " + amount + " / 5 ) * -1 )",
+        margin: "calc( (" + nodeMargin + " - (" + amount + " / 5 ) ) )",
         offset: 1,
       },
     ]

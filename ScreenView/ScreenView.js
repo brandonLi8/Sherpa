@@ -56,10 +56,6 @@ export default class ScreenView {
     );
     // provide the default for the screen ( style html )
     var html = {
-      maxWidth: "100%",
-      overflowX: "hidden",
-      height: "100%",
-      background: "#26262a",
     };
 
     // Assert.assert(
@@ -71,10 +67,6 @@ export default class ScreenView {
     var htmlStyleOveride = { ...html, ...htmlStyle };
     // provide the default for the screen ( style body )
     var body = {
-      maxWidth: "100%",
-      height: "100%",
-      background: "#FFF",
-      margin: 0
     };
     // now overide with the user provided styling if they choose to overide
     var bodyStyleOveride = { ...body, ...htmlStyle };

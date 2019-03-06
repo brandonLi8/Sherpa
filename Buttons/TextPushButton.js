@@ -82,7 +82,6 @@ export default class Node extends OriginalNode {
         fontSize: "20px",
         margin: "auto",
         textAlign: "center",
-        fontFamily: "Courier"
       },
 
       // {object} the style for the text on the button hover @optional 
