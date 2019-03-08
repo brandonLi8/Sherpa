@@ -187,6 +187,15 @@ export default class Node {
       );
     }
 
+    // set id
+    if ( options.id ){ 
+      this.DOMobject.setAttribute( "id", options.id );
+    }
+    // set class
+    if ( options.class ){
+      this.DOMobject.className = options.class;
+    }
+
     // create the text child
     if ( options.text ) {
       // make sure that it is a valid string
