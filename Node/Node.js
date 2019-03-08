@@ -69,7 +69,6 @@
  * document events ie mousedown, keydown, etc.
  *
  *
- *
  * ## API
  *
  * node.addChildren( node1, node2 etc... ) - this will add a child to the node
@@ -97,22 +96,26 @@
  *
  * node.setUpDrag() - makes the node draggable
  * 
- * There also is a way to animate the nodes, but the methods are in another
- * module "./Animations.js";
- * Paired with the module, you can animate the nodes. You can reset the
- * animations ins node.resetAnimation();
+ *
+ * ANIMATIONS: 
+ * Animations are possible with node but you must use "./Animations.js"
+ *
+ * Paired with the module, you can animate the nodes. 
+ *
+ * You can reset the animation of the node with node.resetAnimation();
  *
  */
 
-//modules
+// modules
 import Assert from "../Assert/Assert.js"
 
 "use strict";
 export default class Node {
   /**
+   *
    * Creates a Node with options that can overide the defaults. The defaults
-   * is a object that describes the type of node.
-   * The defaults are in the constructor as const defaults = { ...
+   * is a object type that describes the type of node.
+   * The defaults are in the constructor as this.defaults = { ...
    * Everything in the options can override the defualts.
    * @public
    * @constructor
@@ -121,6 +124,7 @@ export default class Node {
    *
    */
   constructor( options ) {
+    // make sure the options is a object
     Assert.assert(
       typeof options === "object",
       "@param Options must be a object type"
@@ -145,16 +149,33 @@ export default class Node {
       dragClose: null,
       // {nameSpace} usually for svg's
       nameSpace: null, 
+      // {string} @optional the id for the node
+      id: null,
+      // {string} @optional the class for the node
+      class: null,
+
       // {object} the object with all of the 'attributes' of the node
       // ie. id, className, and anything else!
       attributes: null
     };
-    // merge them with options overriding
+
+    // merge them with user provided options overriding
     options = { ...defaults, ...options };
 
-    // create the type of child
+    // @public {object} the options to the node.
+    this.options = options;
+
+    // make sure that the node type is a string
+    Assert.assert(
+      typeof options.type === "string",
+      "@param Options.type must be a string type. Instead it is a "
+      + ( options.type && options.type.__proto__.constructor.name || 'null' )
+    );
+
+    // create node with javascript api
+
     // @public {DOM} - the actual DOM object inside
-    if ( options.nameSpace ){ // for svg
+    if ( options.nameSpace ){ // for svg with nameSpace
       this.DOMobject = document.createElementNS( 
         options.nameSpace,
         options.type 
@@ -168,31 +189,51 @@ export default class Node {
 
     // create the text child
     if ( options.text ) {
+      // make sure that it is a valid string
+      Assert.assert(
+        options.text.__proto__.constructor.name === "String",
+        "@param Options.text must be of String type. Instead it was a "
+        + options.text.__proto__.constructor.name
+      );
+      // create the text node and add it
       var textNode = document.createTextNode( options.text );
       this.DOMobject.appendChild( textNode );
     }
+
     // create the innerHTML
     if ( options.innerHTML ) {
+      // make sure that it is a valid string
+      Assert.assert(
+        options.innerHTML.__proto__.constructor.name === "String",
+        "@param Options.innerHTML must be of String type. "
+        + " Instead it was a " 
+        + options.innerHTML.__proto__.constructor.name
+      );
+      // make it the innerHTML
       this.DOMobject.innerHTML = options.innerHTML;
     }
+
     // set style
     if ( options.style ) {
       this.setStyle( options.style );
     }
 
-    // @public {array}
+    // @public {array} the children of this node
     this.children = [];
 
-    // @public {node}
+    // @public {node} the parrent of the node
     this.parent = null;
 
-    // on image nodes set the image if given
+    // On image nodes set the image if given
     if ( options.src && options.type === "img" ) {
+      Assert.assert(
+        options.src.__proto__.constructor.name === "String",
+        "@param Options.src must be of String type. Instead it was a "
+        + options.src.__proto__.constructor.name
+      );
+      // javascript will check that it is a legit image
       this.DOMobject.src = options.src;
     }
-
-    // // @public {object} the options to the node.
-    this.options = options;
 
     if ( options.draggable && options.draggable === true )
       this.setupDrag();
@@ -200,6 +241,7 @@ export default class Node {
     // now add the attributes to the node
     if ( options.attributes ){
       let keys = Object.keys( options.attributes );
+      // loop through and add each attribute
       for ( var i = 0; i < keys.length; i++ ) {
         var attribute = keys[ i ];
         this.DOMobject.setAttribute( 
@@ -208,9 +250,10 @@ export default class Node {
         );
       }
     }
-    // @public {animation} the animation of this node/ nodes can only have 
-    // one animation at a time
+
+    // @public {animation} the animation of this node
     this.animation = null;
+    // note: nodes can only have one animation at a time
   }
   /**
    * @public
@@ -219,6 +262,7 @@ export default class Node {
    *
    * Usage: node.addChildren( node1, node2 )
    * for adding one child, just provide one parameter
+   * @return {Node} - Returns 'this' reference, for chaining
    */
   addChildren( ...children ) {
     // loop through each provided child and add it
@@ -230,14 +274,15 @@ export default class Node {
         "@param otherNode must be of node type. Instead you tried adding a " +
         addedNode.__proto__.constructor.name
       );
-      // if it is already one of our children, ignore aka return;
+      // if it is already one of our children, ignore;
       if ( this.children.includes( addedNode ) ) continue;
 
       this.children.push( addedNode ); // add it to the list first
-      addedNode.parent = this; // set the addedNodes parent to self
+      addedNode.parent = this; // set the addedNodes parent to 'this'
       // add it to the actual DOM
       this.DOMobject.appendChild( addedNode.DOMobject );
     }
+    return this; // allow chaining
   }
   /**
    * @public
@@ -247,8 +292,11 @@ export default class Node {
    * Usage: node.addChildren( node1, node2 )
    * for adding one child, just provide one parameter
    *
-   * This doesn't technically dispoe the memory of the children, rather remove
-   * the connections between the children and this node. 
+   * This doesn't technically dispose the memory of the children, rather remove
+   * the connections between the children and this node. This node is left in
+   * the heap and javascript handles the memory.
+   * 
+   * @returns {Node} - Returns 'this' reference, for chaining
    */
   removeChildren( ...removedChildren ) {
     for ( var i = 0; i < removedChildren.length; i++ ) {
@@ -270,22 +318,26 @@ export default class Node {
       this.DOMobject.removeChild( node.DOMobject );
       node.parent = null;
     }
+    return this; // allow chaining
   }
   /**
    * @public
    * Remove all children associated with this node
    * This doesn't technically dispoe the memory of the children, rather remove
    * the connections between the children and this node. 
+   *
+   * @returns {Node} - Returns 'this' reference, for chaining
    */
   removeAllChildren() {
     // children have to exist first
     if ( this.children.length == 0 ) return;
     this.removeChildren( ...this.children );
+    return this; // allow chaining
   }
   /**
    * @public
    * Create a event listener
-   * @param {String} event - the even (keydown etc.)
+   * @param {String} event - the event ie. (keydown etc.)
    * @param {function} callBack - event caled when event happens
    */
   addEventListener( event, callBack ) {
@@ -350,12 +402,6 @@ export default class Node {
    * @param {object} options - the attributes that are changing
    */
   setStyle( style ) {
-    Assert.assert(
-      style && style.__proto__.constructor.name === "Object",
-      "@param style must be of 'object' type. Instead you provided a " +
-      ( ( style && style.__proto__.constructor.name ) || null )
-    );
-    
     let keys = Object.keys( style );
     for ( var i = 0; i < keys.length; i++ ) {
       this.DOMobject.style[ keys[ i ] ] = style[ keys[ i ] ];

@@ -52,15 +52,14 @@ import Assert from "../Assert/Assert.js";
  *
  * Load the script and add it to the head to be used
  */
- 
-var script = document.createElement( "script" );
-script.src = "./Sherpa/Animations/BrowserSupport/web-animations.min.js"
-document.head.appendChild( script );
-
 
 export default class Animations {
   // no consructor, Animations is a collection of static methods
-  consructor(){};
+  consructor(){
+    var script = document.createElement( "script" );
+    script.src = "./Sherpa/Animations/BrowserSupport/web-animations.min.js"
+    document.head.appendChild( script );
+  };
   /**
    * Uses Web Animations API
    * Animates the node with a curom animation
@@ -99,6 +98,7 @@ export default class Animations {
       "@param options.node must be of node type and is required. Instead it was"
       + " a " + ( ( node && node.__proto__.constructor.name ) || null )
     );
+    
     let animation = node.DOMobject.animate( options.animation, options.timing );
     node.animation = animation;
 
