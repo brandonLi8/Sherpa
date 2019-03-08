@@ -32,9 +32,13 @@ text.
 
 
 ## Image Button
-This is a node that represents a Image button with all the listeners already made.
 
-It  takes a image, its hover image (optional), and text (optional) that is a button. The user will provide the styling and the listener function when the button is pressed
+This is a button class that is designed for a image on top of it. This inherits Node.js so it supports animations, hover effects, and click functionality.
+ 
+This is a basically a Node with pre-defined children as text and listeners.
+ 
+It  takes a image, its hover image (optional), and text (optional) that is a button. The user will provide the styling and the listener function when the button is pressed 
+
 
 ## CheckButton
 This is a node that represents a check with all the listeners alreadymade.

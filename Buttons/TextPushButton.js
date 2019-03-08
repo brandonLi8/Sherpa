@@ -105,14 +105,16 @@ export default class Node extends OriginalNode {
       // ie. r, and anything else!
       attributes: null
     }
-    
-    options = { ...defaults, ...options };
 
+    const newOptions = { ...defaults, ...options };
     // merge the styles 
-    options.style = { ...defaults.style, ...options.style }
-    options.hoverStyle = { ...defaults.hoverStyle, ...options.hoverStyle } 
-    options.textStyle = { ...defaults.textStyle, ...options.textStyle }
+    newOptions.style = { ...defaults.style, ...options.style }
+    newOptions.hoverStyle = { ...defaults.hoverStyle, ...options.hoverStyle } 
+    newOptions.textStyle = { ...defaults.textStyle, ...options.textStyle }
     // don't need to merge the text hover style because it is null;
+
+    // reset it back to options
+    options = newOptions;
 
     // create the node!
     super({
