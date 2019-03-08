@@ -21,7 +21,6 @@ For example:
   Node -> A   B <- Node
          / \
 Node -> D   E <- Node
-
 ```
 
 As you can see, the 'wrapper' node is the root to the ScreenView as the body and html are ignored. The user can provide styling for the HTML and Body element.

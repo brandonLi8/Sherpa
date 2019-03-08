@@ -19,13 +19,12 @@ For example, nodes A, B, C, D and E:
 - D is a child of C (thus C is a parent of D)
 - E is a child of C (thus C is a parent of E)
 where A would be the root node. Visual representation:
-``` 
+```
   A
  / \
 B   C
    / \
   D   E
-
 ```
 
 Additionally, in this case:

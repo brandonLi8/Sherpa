@@ -58,22 +58,20 @@ export default class ScreenView {
     var html = {
     };
 
-    // Assert.assert(
-    //   htmlStyle || htmlStyle.__proto__.constructor.name === "Node",
-    //   "@param rootNode must be of node type. Instead it was a " +
-    //   ( ( rootNode && rootNode.__proto__.constructor.name ) || rootNode )
-    // );
     // now overide with the user provided styling if they choose to overide
     var htmlStyleOveride = { ...html, ...htmlStyle };
+
     // provide the default for the screen ( style body )
     var body = {
     };
     // now overide with the user provided styling if they choose to overide
     var bodyStyleOveride = { ...body, ...htmlStyle };
 
-    // @private
+    // @private {DOM} the body node
     this.bodyNode = document.getElementsByTagName( "body" )[ 0 ];
+    // @private {DOM} the html node ( this is the true root )
     this.htmlNode = document.getElementsByTagName( "html" )[ 0 ];
+
     // now set the styles
     setStyle( this.bodyNode, bodyStyleOveride );
     setStyle( this.htmlNode, htmlStyleOveride );
@@ -84,9 +82,9 @@ export default class ScreenView {
         node.style[ keys[ i ] ] = style[ keys[ i ] ];
       }
     }
+
     // @public
     this.rootNode = rootNode;
-
     rootNode.parent = this.body;
 
     this.bodyNode.appendChild( rootNode.DOMobject ); // this will display it
@@ -103,6 +101,8 @@ export default class ScreenView {
     this.rootNode.parent = null;
   }
   /**
+   * ** note: this is not well tested **
+   *
    * add child to a parent inside the tree
    * @public
    *
