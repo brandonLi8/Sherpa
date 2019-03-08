@@ -155,7 +155,7 @@ export default class Node {
       class: null,
 
       // {object} the object with all of the 'attributes' of the node
-      // ie. id, className, and anything else!
+      // ie. r and anything else!
       attributes: null
     };
 
@@ -402,6 +402,7 @@ export default class Node {
    * @param {object} options - the attributes that are changing
    */
   setStyle( style ) {
+    if ( !style ) return;
     let keys = Object.keys( style );
     for ( var i = 0; i < keys.length; i++ ) {
       this.DOMobject.style[ keys[ i ] ] = style[ keys[ i ] ];
