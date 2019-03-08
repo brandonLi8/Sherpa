@@ -51,14 +51,17 @@ import Assert from "../Assert/Assert.js";
  * This module allows this to animate on all browsers!
  *
  * Load the script and add it to the head to be used
+ * IN order for your animation to work in other browsers, you should include
+ * it in the html file.
+ *
+ * <script src="Sherpa/Animations/BrowserSupport/web-animations.min.js">
+ * </script>
+ *
  */
 
 export default class Animations {
   // no consructor, Animations is a collection of static methods
   consructor(){
-    var script = document.createElement( "script" );
-    script.src = "./Sherpa/Animations/BrowserSupport/web-animations.min.js"
-    document.head.appendChild( script );
   };
   /**
    * Uses Web Animations API
