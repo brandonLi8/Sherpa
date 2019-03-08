@@ -14,16 +14,19 @@ Buttons is a series of lirbaries designed to make buttons easily in vanilla java
 
 ## TextPushButton
 
-This is a button class that is designed for text on top of it. This uses Node so it supports animations, hover effects, and click functionality.
+This is a button class that is designed for text on top of it. This inherits Node.js so it supports animations, hover effects, and click functionality. 
 
-This is a basically a Node with other nodes as children but represents a button.
+This is a basically a Node with pre-defined children as text and listeners. 
 
 TextPushButton provides a default looking button, but the user can overide  the style, a seperate opbject that the user can default each item, so if you override style it doens't delete all of the style.
 
 The tree looks something like this.
+```
    div <- this 
     |
  textnode <- this.textNode ( the node of the text ) 
+```
+
  This sepration of the text and the button allows for animation of just the
 text.
 
