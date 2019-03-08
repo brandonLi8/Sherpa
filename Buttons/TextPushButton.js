@@ -9,11 +9,10 @@
  *
  * ## Description:
  *
- * This is a button class that is designed for text on top of it. This uses Node
- * so it supports animations, hover effects, and click functionality.
+ * This is a button class that is designed for text on top of it. This inherits
+ * Node.js so it supports animations, hover effects, and click functionality.
  *
- * This is a basically a Node with other nodes as children but represents a 
- * button.
+ * This is a basically a Node with pre-defined children as text and listeners.
  *
  * TextPushButton provides a default looking button, but the user can overide 
  * the style, a seperate opbject that the user can default each item, so
@@ -29,28 +28,34 @@
  * 
  */
 
-// modules
-import OriginalNode from "../Node/Node.js";
-import Assert from "../Assert/Assert.js"
+
 
 "use strict";
 
-// we must use Node name in order to have node functionality
-// call it with TextPushButton:
-// import TextPushButton from "...";
+/**
+ * Because Node checks contructor name, we must call this class Node.
+ *
+ * But you should call it with TextPushButton:
+ * import TextPushButton from "...";
+ */
 
-// we aren't making a new node
+// modules
+// this is the original node (Node.js)
+import OriginalNode from "../Node/Node.js";
+import Assert from "../Assert/Assert.js"
+
+// Again, this class is called Node, but it is really a TextPushButton
+
+// inherit from the original node, but you shouldnt create a instance with the 
+// same parameters as Node (different constructors)
 export default class Node extends OriginalNode {
   /**
-   * Creates the button node
+   * Creates the Button itself
    * @public
    * @constructor
    *
-   * @param {object} options - look at const defaults for information on 
-   * all of the defaults
-   * 
-   * to get the button node call itself the .button property of this class:
-   * let buttonNode = new TextPushButton({}).button {node}
+   * @param {object} options - the attributes to the button
+   * Look at const defaults for information on all of the defaults
    *
    */
   constructor( options ){
@@ -58,29 +63,23 @@ export default class Node extends OriginalNode {
     let defaults = {
       // {string} the text on the node @optional
       text: "Text Button", 
-
-      // {object} the styling ( overriding doesnt delete all of it ) @optional 
+      // {object} the styling ( overriding doesn't delete all of it ) @optional 
       style: { 
         border: "1px solid #222",
-        borderRadius: "15px",
-        width: "200px",
-        height: "50px",
-        display: "flex",
-        background: "white",
-        boxShadow: "0 0 3px 0 rgb( 40, 40, 40 )",
-        margin: "auto"
+        margin: "auto",
+        width: "100px",
+        opacity: "1",
       },
 
       // {object} the styling on the hover @optional
       hoverStyle: { 
         cursor: "pointer",
-        background: "#DDD"
+        opacity: "0.5"
       },
 
       // {object} the style for the text node @optional 
       textStyle: { 
         fontSize: "20px",
-        margin: "auto",
         textAlign: "center",
       },
 
@@ -102,40 +101,43 @@ export default class Node extends OriginalNode {
       // {function} the function called on the mouseout of the hover
       mouseout: null,
 
+      // {object} the object with all of the 'attributes' of the node
+      // ie. r, and anything else!
+      attributes: null
     }
     
-    let attributes = { ...defaults, ...options };
+    options = { ...defaults, ...options };
 
     // merge the styles 
-    attributes.style = { ...defaults.style, ...options.style }
-    attributes.hoverStyle = { ...defaults.hoverStyle, ...options.hoverStyle } 
-    attributes.textStyle = { ...defaults.textStyle, ...options.textStyle }
+    options.style = { ...defaults.style, ...options.style }
+    options.hoverStyle = { ...defaults.hoverStyle, ...options.hoverStyle } 
+    options.textStyle = { ...defaults.textStyle, ...options.textStyle }
+    // don't need to merge the text hover style because it is null;
 
     // create the node!
     super({
-      style: attributes.style,
-      attributes: {
-        id: attributes.id,
-        class: attributes.class
-      }
+      style: options.style,
+      attributes: options.attributes,
+      id: options.id,
+      class: options.class
     })
-    // 'this' is now the button node
 
+    // 'this' is now the button node
     var self = this;
 
     // add hover styling 
     this.addEventListener( "mouseover", function( event ){ 
       event.stopPropagation();
-      self.setStyle( attributes.hoverStyle || {} );
-      self.textNode.setStyle( attributes.textHoverStyle || {} );
+      self.setStyle( options.hoverStyle );
+      self.textNode.setStyle( options.textHoverStyle );
 
-      if ( attributes.hoverListener ){
+      if ( options.hoverListener ){
         Assert.assert( 
-          typeof attributes.hoverListener === "function",
+          typeof options.hoverListener === "function",
           "@param listener must be a Function type. Instead it was a "
-          + attributes.hoverListener.__proto__.constructor.name );
+          + options.hoverListener.__proto__.constructor.name );
 
-        attributes.hoverListener()
+        options.hoverListener()
       }
 
     } );
@@ -143,15 +145,15 @@ export default class Node extends OriginalNode {
     this.addEventListener( "mouseout", function( event ){ 
       event.stopPropagation();
 
-      self.setStyle( attributes.style || {} );
-      self.textNode.setStyle( attributes.textStyle || {} )
+      self.setStyle( options.style || {} );
+      self.textNode.setStyle( options.textStyle || {} )
 
-      if ( attributes.mouseout ){
+      if ( options.mouseout ){
         Assert.assert( 
-          typeof attributes.mouseout === "function",
+          typeof options.mouseout === "function",
           "@param listener must be a Function type. Instead it was a "
-          + attributes.mouseout.__proto__.constructor.name );
-        attributes.mouseout()
+          + options.mouseout.__proto__.constructor.name );
+        options.mouseout()
       }
 
     } );
@@ -160,21 +162,21 @@ export default class Node extends OriginalNode {
     this.addEventListener( "mousedown", function( event ){
 
       event.stopPropagation()
-      if ( attributes.onclick ){
+      if ( options.onclick ){
         Assert.assert( 
-          typeof attributes.onclick === "function",
+          typeof options.onclick === "function",
           "@param listener must be a Function type. Instead it was a "
-          + attributes.onclick.__proto__.constructor.name );
-        attributes.onclick();
+          + options.onclick.__proto__.constructor.name );
+        options.onclick();
       }
 
     } );
     
 
-    // @public have a seperate text node for more animation flexibility
+    // @public {node} have a seperate text node for more animation flexibility
     this.textNode = new OriginalNode({
-      text: attributes.text,
-      style: attributes.textStyle
+      text: options.text,
+      style: options.textStyle
     })
 
     this.addChildren( this.textNode );
