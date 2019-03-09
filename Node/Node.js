@@ -486,6 +486,9 @@ export default class Node {
    * animation
    */
   resetAnimation(){
-    if ( this.animation ) this.animation.cancel();
+    if ( this.animation ) {
+      this.animation.pause();
+      this.animation.cancel();
+    }
   }
 }
