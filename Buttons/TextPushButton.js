@@ -69,6 +69,7 @@ export default class Node extends OriginalNode {
         margin: "auto",
         width: "100px",
         opacity: "1",
+        fontSize: "20px",
       },
 
       // {object} the styling on the hover @optional
@@ -79,7 +80,6 @@ export default class Node extends OriginalNode {
 
       // {object} the style for the text node @optional 
       textStyle: { 
-        fontSize: "20px",
         textAlign: "center",
       },
 
@@ -116,6 +116,7 @@ export default class Node extends OriginalNode {
     // reset it back to options
     options = newOptions;
 
+
     // create the node!
     super({
       style: options.style,
@@ -146,7 +147,6 @@ export default class Node extends OriginalNode {
 
     this.addEventListener( "mouseout", function( event ){ 
       event.stopPropagation();
-
       self.setStyle( options.style || {} );
       self.textNode.setStyle( options.textStyle || {} )
 
@@ -182,6 +182,8 @@ export default class Node extends OriginalNode {
     })
 
     this.addChildren( this.textNode );
+
+    
   }
 
 }
