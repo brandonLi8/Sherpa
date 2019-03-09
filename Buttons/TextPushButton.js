@@ -119,6 +119,7 @@ export default class Node extends OriginalNode {
 
     // create the node!
     super({
+      type: "a",
       style: options.style,
       attributes: options.attributes,
       id: options.id,
