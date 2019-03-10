@@ -141,6 +141,8 @@ export default class Node {
       style: null,
       // **ONLY** on type "img" @optional {string} the src for the image
       src: null,
+      // **ONLY** on type "a" @optional {string} the href for the link
+      href: null,
       // {boolean} is it draggable?
       draggable: false,
       // {function} only on draggable = true, function called on drag
@@ -243,6 +245,18 @@ export default class Node {
       // javascript will check that it is a legit image
       this.DOMobject.src = options.src;
     }
+
+    // On link nodes set the href if given
+    if ( options.href && options.type === "a" ) {
+      Assert.assert(
+        options.href.__proto__.constructor.name === "String",
+        "@param Options.href must be of String type. Instead it was a "
+        + options.href.__proto__.constructor.name
+      );
+      // javascript will check that it is a legit image
+      this.DOMobject.href = options.href;
+    }
+
 
     if ( options.draggable && options.draggable === true )
       this.setupDrag();
