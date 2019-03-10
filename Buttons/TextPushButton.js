@@ -103,7 +103,10 @@ export default class Node extends OriginalNode {
 
       // {object} the object with all of the 'attributes' of the node
       // ie. r, and anything else!
-      attributes: null
+      attributes: null,
+
+      // set the href of the text button ( only for links ) @options
+      href: null,
     }
 
     const newOptions = { ...defaults, ...options };
@@ -123,7 +126,8 @@ export default class Node extends OriginalNode {
       style: options.style,
       attributes: options.attributes,
       id: options.id,
-      class: options.class
+      class: options.class,
+      href: options.href
     })
 
     // 'this' is now the button node
