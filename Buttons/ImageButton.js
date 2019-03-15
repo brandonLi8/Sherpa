@@ -55,7 +55,7 @@ export default class Node extends OriginalNode {
    * visit const defaults to see the defaults
    * 
    */
-  constructor( options ){
+  constructor( options ) {
     // provide the defaults
     const defaults = {
 

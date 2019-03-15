@@ -61,8 +61,8 @@ import Assert from "../Assert/Assert.js";
 
 export default class Animations {
   // no consructor, Animations is a collection of static methods
-  consructor(){
-  };
+  consructor() {
+  }
   /**
    * Uses Web Animations API
    * Animates the node with a curom animation

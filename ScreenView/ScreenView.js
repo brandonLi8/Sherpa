@@ -48,7 +48,7 @@ export default class ScreenView {
    *
    */ 
   
-  constructor( rootNode, htmlStyle, bodyStyle ){
+  constructor( rootNode, htmlStyle, bodyStyle ) {
     Assert.assert(
       rootNode && rootNode.__proto__.constructor.name === "Node",
       "@param rootNode must be of node type. Instead it was a " +
@@ -94,7 +94,7 @@ export default class ScreenView {
    * @public
    * This will remove it from the display ( the nodes itself wont be disposed )
    */
-  dispose(){
+  dispose() {
     // remove its children
     this.body.innerHTML = "";
     // break the bond
@@ -114,7 +114,7 @@ export default class ScreenView {
    * }
    * This will add it to the first instance of it inside of the root Order list
    */
-  addChild( options ){ 
+  addChild( options ) { 
     // append the child to the parent
     let rootOrder = this.rootOrderList
     if ( options.parentType === "class" ){
@@ -158,7 +158,7 @@ export default class ScreenView {
    * then the root order is [ A, B, C, D, E, F ]
    *
    */
-  get rootOrderList(){
+  get rootOrderList() {
     // the result array
     let result = [];
     result.push( this.rootNode );

@@ -46,7 +46,7 @@ export default class Node extends OriginalNode {
    *
    * to get the container just use the .container property
    */
-  constructor( options ){
+  constructor( options ) {
     // provide the defaults
     /**
      * Note: for listeners to the check if you want to use your own 

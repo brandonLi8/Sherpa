@@ -57,7 +57,7 @@ export default class ObservableVariable {
    * Note: the value can be set to null or undefined and still work
    * Listeners will be passsed the new value as the paramter
    */
-  constructor( value, listener ){
+  constructor( value, listener ) {
     // make sure that if there is a listener, it is a function
     if ( listener ){
       Assert.assert(
@@ -105,7 +105,7 @@ export default class ObservableVariable {
    * @public
    * @return {string} - the string format or the value
    */
-  toString(){
+  toString() {
     if ( this.value )
       return this.value.toString();
     else
@@ -116,7 +116,7 @@ export default class ObservableVariable {
    * Add a listener to observe the change of the variable
    * @param {function} newListener - the function called when the value changes
    */
-  addListener( listener ){
+  addListener( listener ) {
     Assert.assert(
       listener && listener.__proto__.constructor.name === "Function",
       "@param listener must be a function. Instead you provided a " +
@@ -133,7 +133,7 @@ export default class ObservableVariable {
    * @param {function} - the listener being removed
    * 
    */
-  removeListener( listener ){
+  removeListener( listener ) {
     Assert.assert(
       listener && listener.__proto__.constructor.name === "Function",
       "@param listener must be a function. Instead you provided a " +

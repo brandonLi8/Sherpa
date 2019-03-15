@@ -499,7 +499,7 @@ export default class Node {
    * Reset the animation to put the node in the original spot before the
    * animation
    */
-  resetAnimation(){
+  resetAnimation() {
     if ( this.animation ) {
       this.animation.pause();
       this.animation.cancel();
