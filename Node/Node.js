@@ -380,11 +380,11 @@ export default class Node {
     if ( !this.parent ) return;
     this.removeAllChildren();
     if ( this.parent == document.getElementsByTagName( "body" )[0] ) {
-      this.parent.removeChild( this.DOMobject );
+      this.parent.removeChildren( this.DOMobject );
       this.parent = null;
       return;
     }
-    this.parent.removeChild( this );
+    this.parent.removeChildren( this );
     this.parent = null;
   }
   /**
