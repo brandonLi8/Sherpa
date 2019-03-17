@@ -65,7 +65,7 @@ export default class ScreenView {
     var body = {
     };
     // now overide with the user provided styling if they choose to overide
-    var bodyStyleOveride = { ...body, ...htmlStyle };
+    var bodyStyleOveride = { ...body, ...bodyStyle };
 
     // @private {DOM} the body node
     this.bodyNode = document.getElementsByTagName( "body" )[ 0 ];
