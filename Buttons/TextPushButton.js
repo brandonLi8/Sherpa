@@ -188,6 +188,7 @@ export default class Node extends OriginalNode {
 
     this.addChildren( this.textNode );
 
+    this.options = options;
     
   }
 
