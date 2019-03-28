@@ -24,3 +24,6 @@ This also includes other non visual modules like assert for easier use of javasc
 5. [Animations](Animations/README.md)
 
 6. [Buttons](Buttons/README.md)
+
+7. [Parallax](Parallax/README.md)
+
