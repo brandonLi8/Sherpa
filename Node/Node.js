@@ -88,6 +88,7 @@
  * node.parentNode - the parent node 
  * node.id - the id to the node
  * node.class - the class to the node
+ * node.onScreen - is the node on the screen when it is called ( get method )
  * 
  * node.setStyle({
  *   border: "2px solid black"
@@ -504,5 +505,19 @@ export default class Node {
       this.animation.pause();
       this.animation.cancel();
     }
+  }
+  /**
+   * @public
+   * see if the node is on the screen or not
+   * @return {bool} if the node is on the screen
+   */
+  get onScreen(){
+    var rect = this.DOMobject.getBoundingClientRect();
+
+    var viewHeight = Math.max(
+      document.documentElement.clientHeight, 
+      window.innerHeight
+    );
+    return ( !( rect.bottom < 0 || rect.top - viewHeight >= 0 ) )
   }
 }

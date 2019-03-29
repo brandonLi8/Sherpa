@@ -73,7 +73,6 @@ export default class Parallax {
       if ( typeof window.orientation !== "undefined" ) return;
 
       var scrollPosition = getPosition();
-      console.log( "ERehrh")
       node.setStyle({
         transform: "translate3d( 0px, "
                     + ( scrollPosition * factor )
