@@ -57,7 +57,7 @@ Here's a simple example of creating a Button:
 
 ```javascript 
 // import library
-import CheckButton from "../../Sherpa/Buttons/CheckButton.js"
+import CheckButton from "../../Sherpa/Buttons/CheckButton.min.js"
 
 // (your path will be different)
 

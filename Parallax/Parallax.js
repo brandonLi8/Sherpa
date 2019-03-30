@@ -18,7 +18,7 @@
  * It is simple to use this:
  *
  * First, import the module
- * import Parallax from "../Sherpa/Parallax/Parallax.js";
+ * import Parallax from "../Sherpa/Parallax/Parallax.min.js";
  *
  * Then to make a node have the effect call the static method addEffect
  * Parallax.addEffect( node, -5 );
@@ -29,7 +29,7 @@
 
 "use strict";
 
-import Assert from "../Assert/Assert.js";
+import Assert from "../Assert/Assert.min.js";
 export default class Parallax {
   // no need for a constructor, it is static
 

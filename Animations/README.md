@@ -21,8 +21,8 @@ Here's a simple example of a animation that jiggles a node on a hover:
 
 ```javascript 
 // import libraries!
-import Node from "../../Sherpa/Node/Node.js";
-import Animations from "../../Sherpa/Animations/Animations.js"
+import Node from "../../Sherpa/Node/Node.min.js";
+import Animations from "../../Sherpa/Animations/Animations.min.js" 
 // (your path will be different)
 
 var node = new Node({

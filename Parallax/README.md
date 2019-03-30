@@ -17,7 +17,7 @@ Here's a simple example:
 
 ```javascript 
 // import it
-import Parallax from "../Sherpa/Parallax/Parallax.js"; // (the path might be different)
+import Parallax from "../Sherpa/Parallax/Parallax.min.js"; // (the path might be different)
 
 
 // Since it is static, you don't have to make a instance of it.

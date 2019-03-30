@@ -43,7 +43,7 @@
  * For more information, please refer to the the README.md (same directory)
  */
 
-import Assert from "../Assert/Assert.js";
+import Assert from "../Assert/Assert.min.js";
 
 /**
  * This is supported for all browsers thanks to web-animations:

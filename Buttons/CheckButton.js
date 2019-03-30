@@ -24,9 +24,9 @@
 
 "use strict";
 // modules
-import OriginalNode from "../Node/Node.js";
-import Assert from "../Assert/Assert.js"
-import ObservableVariable from "../Observe/ObservableVariable.js"
+import OriginalNode from "../Node/Node.min.js";
+import Assert from "../Assert/Assert.min.js"
+import ObservableVariable from "../Observe/ObservableVariable.min.js"
 
 
 // usage: import CheckButton from "...";

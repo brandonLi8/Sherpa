@@ -41,8 +41,8 @@
 
 // modules
 // this is the original node (Node.js)
-import OriginalNode from "../Node/Node.js";
-import Assert from "../Assert/Assert.js"
+import OriginalNode from "../Node/Node.min.js";
+import Assert from "../Assert/Assert.min.js"
 
 // Again, this class is called Node, but it is really a TextPushButton
 

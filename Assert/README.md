@@ -17,7 +17,7 @@ Here's a simple example:
 
 ```javascript 
 // import it
-import Assert from "../../Core/Assert.js"; // (the path might be different)
+import Assert from "../../Core/Assert.min.js"; // (the path might be different)
 
 
 // Since it is static, you don't have to make a instance of it.

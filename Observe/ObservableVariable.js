@@ -42,7 +42,7 @@
  */
 
 // modules 
-import Assert from "../Assert/Assert.js";
+import Assert from "../Assert/Assert.min.js";
 
 "use strict";
 

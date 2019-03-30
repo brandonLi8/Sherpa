@@ -35,8 +35,8 @@ Here's a simple example:
 
 ```javascript 
 // import libraries!
-import Node from "../../Sherpa/Node/Node.js";
-import ScreenView from "../../Sherpa/ScreenView/ScreenView.js"
+import Node from "../../Sherpa/Node/Node.min.js";
+import ScreenView from "../../Sherpa/ScreenView/ScreenView.min.js"
 // (your path will be different)
 
 var node = new Node({

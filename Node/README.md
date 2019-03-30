@@ -44,7 +44,7 @@ Here's a simple example of creating a node:
 
 ```javascript 
 // import library
-import Node from "../../Sherpa/Node/Node.js";
+import Node from "../../Sherpa/Node/Node.min.js";
 // (your path will be different)
 
 var node = new Node({

@@ -53,7 +53,7 @@
  * If you want to add a node to a ID or a ClassName or a document type
  * (body etc.) you must use ScreenView.js
  *
- * ScreenView.js should be used for creating the basic tree as it creates the
+ * ScreenView.min.js should be used for creating the basic tree as it creates the
  * root.
  *
  * To make a 'childNode' become a 'parentNode', the typical way is to call
@@ -99,7 +99,7 @@
  * 
  *
  * ANIMATIONS: 
- * Animations are possible with node but you must use "./Animations.js"
+ * Animations are possible with node but you must use "./Animations.minjs"
  *
  * Paired with the module, you can animate the nodes. 
  *
@@ -108,7 +108,7 @@
  */
 
 // modules
-import Assert from "../Assert/Assert.js"
+import Assert from "../Assert/Assert.min.js"
 
 "use strict";
 export default class Node {
